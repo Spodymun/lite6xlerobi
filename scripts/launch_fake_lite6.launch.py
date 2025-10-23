@@ -1,0 +1,1 @@
+/home/pikachu/ws/src/lite6xlerobi/launch/launch_fake_lite6.launch.py
