@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="lite6">
+  <xacro:arg name="use_fake_hardware" default="true"/>
+  <xacro:arg name="prefix"           default=""/>
+  <!-- WICHTIG: Default auf package:// -->
+  <xacro:arg name="mesh_path"        default="package://xarm_description/meshes"/>
+  <xacro:arg name="KIN_YAML"         default="$(find xarm_description)/config/kinematics/default/lite6_default_kinematics.yaml"/>
+  <!-- INERTIAL_YAML ist hier der KEY-Name, kein .yaml -->
+  <xacro:arg name="INERTIAL_YAML"    default="lite6_default_inertial"/>
+
+  <material name="White"><color rgba="0.9 0.9 0.9 1.0"/></material>
+  <material name="Silver"><color rgba="0.75 0.75 0.75 1.0"/></material>
+  <!-- benötigte Macros -->
+  <xacro:include filename="$(find xarm_description)/urdf/common/common.link.xacro"/>
+  <xacro:include filename="$(find xarm_description)/urdf/common/common.material.xacro"/>
+  <xacro:include filename="$(find xarm_description)/urdf/xarm_device_macro.xacro"/>
+  <xacro:include filename="$(find xarm_description)/urdf/lite6/lite6_robot_macro.xacro"/>
+
+  <!-- Flags/Variablen, die in den Macros erwartet werden -->
+  <xacro:property name="is_ros2" value="true"/>
+  <xacro:property name="use_xacro_load_yaml" value="true"/>
+
+  <!-- HIER: mesh_path & mesh_suffix bereitstellen -->
+  <xacro:property name="mesh_path"   value="$(find xarm_description)/meshes"/>
+  <xacro:property name="mesh_suffix" value="stl"/>
+
+  <!-- Aufruf: Kinematics-YAML als Argument + Fake-HW Plugin -->
+  <xacro:lite6_robot
+      prefix=""
+      model_num="0"
+      velocity_control="false"
+      hard_interface="ros2_control"
+      ros2_control_plugin="mock_components/GenericSystem"
+      kinematics_params_filename="$(arg KIN_YAML)"
+      inertial_params_filename="$(arg INERTIAL_YAML)"
+      />
+</robot>

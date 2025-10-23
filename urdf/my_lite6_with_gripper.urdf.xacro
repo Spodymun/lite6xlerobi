@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="lite6">
+
+  <!-- Args -->
+  <xacro:arg name="use_fake_hardware" default="true"/>
+  <xacro:arg name="prefix"           default=""/>
+  <xacro:arg name="mesh_path"        default="package://xarm_description/meshes"/>
+  <xacro:arg name="KIN_YAML"         default="$(find xarm_description)/config/kinematics/default/lite6_default_kinematics.yaml"/>
+  <!-- INERTIAL_YAML = Key-Name (ohne .yaml), der unter config/link_inertial/<KEY>.yaml gefunden wird -->
+  <xacro:arg name="INERTIAL_YAML"    default="lite6_default_inertial"/>
+
+  <!-- optional: Farben definieren (verhindert 'material undefined' Warnings) -->
+  <material name="White"><color rgba="0.9 0.9 0.9 1.0"/></material>
+  <material name="Silver"><color rgba="0.75 0.75 0.75 1.0"/></material>
+
+  <!-- Nur das eine Makro einbinden; der Rest wird dort inkludiert -->
+  <xacro:include filename="$(find xarm_description)/urdf/lite6/lite6_robot_macro.xacro"/>
+
+  <!-- Makro-Aufruf: exakt die erwarteten Parameternamen durchreichen -->
+  <xacro:lite6_robot
+      use_fake_hardware="${use_fake_hardware}"
+      prefix="${prefix}"
+      mesh_path="${mesh_path}"
+      KIN_YAML="${KIN_YAML}"
+      INERTIAL_YAML="${INERTIAL_YAML}"/>
+
+</robot>
+

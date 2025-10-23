@@ -1,0 +1,29 @@
+# Minimal kompatibel zur common_link_inertial-Macro-Struktur
+# origin ist ein Dictionary mit x/y/z, keine Liste oder Strings
+
+base_link:
+  origin: {x: 0.0, y: 0.0, z: 0.0}
+  mass: 1.0
+  com: [0.0, 0.0, 0.0]
+  inertia: {ixx: 1e-3, iyy: 1e-3, izz: 1e-3, ixy: 0.0, ixz: 0.0, iyz: 0.0}
+
+link1: {origin: {x: 0.0, y: 0.0, z: 0.0}, mass: 0.8, com: [0,0,0],
+        inertia: {ixx: 8e-4, iyy: 8e-4, izz: 8e-4, ixy: 0, ixz: 0, iyz: 0}}
+link2: {origin: {x: 0.0, y: 0.0, z: 0.0}, mass: 0.7, com: [0,0,0],
+        inertia: {ixx: 7e-4, iyy: 7e-4, izz: 7e-4, ixy: 0, ixz: 0, iyz: 0}}
+link3: {origin: {x: 0.0, y: 0.0, z: 0.0}, mass: 0.6, com: [0,0,0],
+        inertia: {ixx: 6e-4, iyy: 6e-4, izz: 6e-4, ixy: 0, ixz: 0, iyz: 0}}
+link4: {origin: {x: 0.0, y: 0.0, z: 0.0}, mass: 0.5, com: [0,0,0],
+        inertia: {ixx: 5e-4, iyy: 5e-4, izz: 5e-4, ixy: 0, ixz: 0, iyz: 0}}
+link5: {origin: {x: 0.0, y: 0.0, z: 0.0}, mass: 0.4, com: [0,0,0],
+        inertia: {ixx: 4e-4, iyy: 4e-4, izz: 4e-4, ixy: 0, ixz: 0, iyz: 0}}
+link6: {origin: {x: 0.0, y: 0.0, z: 0.0}, mass: 0.3, com: [0,0,0],
+        inertia: {ixx: 3e-4, iyy: 3e-4, izz: 3e-4, ixy: 0, ixz: 0, iyz: 0}}
+flange: {origin: {x: 0.0, y: 0.0, z: 0.0}, mass: 0.1, com: [0,0,0],
+         inertia: {ixx: 1e-4, iyy: 1e-4, izz: 1e-4, ixy: 0, ixz: 0, iyz: 0}}
+tool0: {origin: {x: 0.0, y: 0.0, z: 0.0}, mass: 0.1, com: [0,0,0],
+        inertia: {ixx: 1e-4, iyy: 1e-4, izz: 1e-4, ixy: 0, ixz: 0, iyz: 0}}
+left_finger: {origin: {x: 0.0, y: 0.0, z: 0.0}, mass: 0.05, com: [0,0,0],
+              inertia: {ixx: 5e-5, iyy: 5e-5, izz: 5e-5, ixy: 0, ixz: 0, iyz: 0}}
+right_finger: {origin: {x: 0.0, y: 0.0, z: 0.0}, mass: 0.05, com: [0,0,0],
+               inertia: {ixx: 5e-5, iyy: 5e-5, izz: 5e-5, ixy: 0, ixz: 0, iyz: 0}}

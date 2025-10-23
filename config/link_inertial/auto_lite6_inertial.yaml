@@ -1,0 +1,9 @@
+# Auto-generated inertial params for Lite6 — NO ${prefix} in keys
+link1: {origin:{x:0.0,y:0.0,z:0.0}, mass:0.1, com:[0.0,0.0,0.0], inertia:{ixx:1e-4, iyy:1e-4, izz:1e-4, ixy:0.0, ixz:0.0, iyz:0.0}}
+link2: {origin:{x:0.0,y:0.0,z:0.0}, mass:0.1, com:[0.0,0.0,0.0], inertia:{ixx:1e-4, iyy:1e-4, izz:1e-4, ixy:0.0, ixz:0.0, iyz:0.0}}
+link3: {origin:{x:0.0,y:0.0,z:0.0}, mass:0.1, com:[0.0,0.0,0.0], inertia:{ixx:1e-4, iyy:1e-4, izz:1e-4, ixy:0.0, ixz:0.0, iyz:0.0}}
+link4: {origin:{x:0.0,y:0.0,z:0.0}, mass:0.1, com:[0.0,0.0,0.0], inertia:{ixx:1e-4, iyy:1e-4, izz:1e-4, ixy:0.0, ixz:0.0, iyz:0.0}}
+link5: {origin:{x:0.0,y:0.0,z:0.0}, mass:0.1, com:[0.0,0.0,0.0], inertia:{ixx:1e-4, iyy:1e-4, izz:1e-4, ixy:0.0, ixz:0.0, iyz:0.0}}
+link6: {origin:{x:0.0,y:0.0,z:0.0}, mass:0.1, com:[0.0,0.0,0.0], inertia:{ixx:1e-4, iyy:1e-4, izz:1e-4, ixy:0.0, ixz:0.0, iyz:0.0}}
+link_base: {origin:{x:0.0,y:0.0,z:0.0}, mass:0.1, com:[0.0,0.0,0.0], inertia:{ixx:1e-4, iyy:1e-4, izz:1e-4, ixy:0.0, ixz:0.0, iyz:0.0}}
+link_eef: {origin:{x:0.0,y:0.0,z:0.0}, mass:0.1, com:[0.0,0.0,0.0], inertia:{ixx:1e-4, iyy:1e-4, izz:1e-4, ixy:0.0, ixz:0.0, iyz:0.0}}
