@@ -13,7 +13,7 @@ controller_manager:
       type: position_controllers/GripperActionController
       
     vacuum_controller:
-      type: position_controllers/JointPositionController
+      type: position_controllers/JointGroupPositionController
 
 # Arm controller configuration for real hardware
 arm_controller:
@@ -60,5 +60,9 @@ authentic_lite6_gripper_controller:
 # Vacuum controller configuration for real hardware
 vacuum_controller:
   ros__parameters:
-    joint: vacuum_joint
-    interface_name: position
+    joints:
+      - vacuum_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position

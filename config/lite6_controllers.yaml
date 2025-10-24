@@ -11,6 +11,9 @@ controller_manager:
     
     authentic_lite6_gripper_controller:
       type: position_controllers/GripperActionController
+    
+    vacuum_controller:
+      type: position_controllers/JointGroupPositionController
 
 # Arm controller configuration
 arm_controller:
@@ -52,3 +55,13 @@ authentic_lite6_gripper_controller:
     allow_stalling: true
     stall_velocity_threshold: 0.001
     stall_timeout: 1.0
+
+# Vacuum controller configuration for fake hardware
+vacuum_controller:
+  ros__parameters:
+    joints:
+      - vacuum_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
