@@ -2,6 +2,9 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="lite6">
 
   <!-- ===== Args ===== -->
+  <xacro:arg name="robot_ip"      default="192.168.1.100"/>
+  <xacro:arg name="report_type"   default="dev"/>
+  <xacro:arg name="dof"           default="6"/>
   <xacro:arg name="with_gripper"  default="false"/>
   <xacro:arg name="with_vacuum"   default="false"/>
   <xacro:arg name="prefix"        default=""/>
@@ -30,13 +33,16 @@
   <xacro:property name="mesh_suffix" value="stl"/>
   <xacro:property name="prefix" value="$(arg prefix)"/>
 
-  <!-- ===== Arm mit Fake-Hardware (GenericSystem) ===== -->
+  <!-- ===== Arm mit echter Hardware (xArmHW Plugin) ===== -->
   <xacro:lite6_robot
       prefix="${prefix}"
       model_num="0"
       velocity_control="false"
       hard_interface="ros2_control"
-      ros2_control_plugin="mock_components/GenericSystem"
+      ros2_control_plugin="xarm_control/XArmHW"
+      robot_ip="$(arg robot_ip)"
+      report_type="$(arg report_type)"
+      dof="$(arg dof)"
       kinematics_params_filename="$(arg KIN_YAML)"
       inertial_params_filename="$(arg INERTIAL_YAML)"/>
 
@@ -59,7 +65,7 @@
   </xacro:if>
 
   <!-- ===== Vacuum Gripper (optional) =====
-       Einfache Vacuum Gripper Implementation ohne externe Makros
+       Einfache Vacuum Gripper Implementation für echte Hardware
        um Root-Link Konflikte zu vermeiden.
   -->
   <xacro:if value="$(arg with_vacuum)">
@@ -92,19 +98,30 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </joint>
 
+    <!-- Vacuum Gripper Tip Link für das Joint -->
+    <link name="vacuum_tip_link">
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+
     <!-- Virtueller Vacuum Aktor für ros2_control -->
     <joint name="vacuum_joint" type="prismatic">
       <parent link="vacuum_gripper_link"/>
-      <child  link="vacuum_gripper_link"/>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <child  link="vacuum_tip_link"/>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
       <axis xyz="0 0 1"/>
       <limit lower="0" upper="1" effort="10" velocity="1"/>
     </joint>
 
-    <!-- ros2_control für Vacuum Gripper -->
+    <!-- ros2_control für Vacuum Gripper (echte Hardware) -->
     <ros2_control name="vacuum_gripper_controller" type="system">
       <hardware>
-        <plugin>mock_components/GenericSystem</plugin>
+        <plugin>xarm_control/XArmVacuumHW</plugin>
+        <param name="robot_ip">$(arg robot_ip)</param>
+        <param name="report_type">$(arg report_type)</param>
       </hardware>
       <joint name="vacuum_joint">
         <command_interface name="position"/>

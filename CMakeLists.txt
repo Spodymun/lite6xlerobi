@@ -5,8 +5,7 @@ find_package(ament_cmake REQUIRED)
 
 # Ausführbare Skripte, die mit `ros2 run` aufrufbar sein sollen
 install(PROGRAMS
-  scripts/bringup_prepare.sh
-  scripts/republish_description.py
+  scripts/test_authentic_gripper.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -16,6 +15,7 @@ install(DIRECTORY
   config
   rviz
   launch
+  meshes
   DESTINATION share/${PROJECT_NAME}
 )
 
