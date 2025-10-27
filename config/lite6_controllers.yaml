@@ -50,11 +50,11 @@ authentic_lite6_gripper_controller:
   ros__parameters:
     joint: lite6_left_finger_joint
     action_monitor_rate: 20.0
-    goal_tolerance: 0.01
-    max_effort: 10.0
+    goal_tolerance: 0.02  # Gleiche Toleranz wie real hardware
+    max_effort: 15.0  # Gleiche max_effort wie real hardware
     allow_stalling: true
-    stall_velocity_threshold: 0.001
-    stall_timeout: 1.0
+    stall_velocity_threshold: 0.01  # Gleicher Wert wie real hardware
+    stall_timeout: 2.0  # Gleicher Timeout wie real hardware
 
 # Vacuum controller configuration for fake hardware
 vacuum_controller:

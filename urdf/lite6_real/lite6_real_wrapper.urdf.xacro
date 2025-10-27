@@ -2,9 +2,8 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="lite6">
 
   <!-- ===== Args ===== -->
-  <xacro:arg name="robot_ip"      default="192.168.1.100"/>
+  <xacro:arg name="robot_ip"      default="192.168.1.186"/>
   <xacro:arg name="report_type"   default="dev"/>
-  <xacro:arg name="dof"           default="6"/>
   <xacro:arg name="with_gripper"  default="false"/>
   <xacro:arg name="with_vacuum"   default="false"/>
   <xacro:arg name="prefix"        default=""/>
@@ -33,16 +32,16 @@
   <xacro:property name="mesh_suffix" value="stl"/>
   <xacro:property name="prefix" value="$(arg prefix)"/>
 
-  <!-- ===== Arm mit echter Hardware (xArmHW Plugin) ===== -->
+  <!-- ===== Arm mit echter Hardware (echtes xArm Hardware Interface) ===== -->
   <xacro:lite6_robot
       prefix="${prefix}"
       model_num="0"
       velocity_control="false"
       hard_interface="ros2_control"
-      ros2_control_plugin="xarm_control/XArmHW"
+      ros2_control_plugin="uf_robot_hardware/UFRobotSystemHardware"
       robot_ip="$(arg robot_ip)"
       report_type="$(arg report_type)"
-      dof="$(arg dof)"
+      add_gripper="$(arg with_gripper)"
       kinematics_params_filename="$(arg KIN_YAML)"
       inertial_params_filename="$(arg INERTIAL_YAML)"/>
 
@@ -119,7 +118,7 @@
     <!-- ros2_control für Vacuum Gripper (echte Hardware) -->
     <ros2_control name="vacuum_gripper_controller" type="system">
       <hardware>
-        <plugin>xarm_control/XArmVacuumHW</plugin>
+        <plugin>uf_robot_hardware/UFRobotVacuumHardware</plugin>
         <param name="robot_ip">$(arg robot_ip)</param>
         <param name="report_type">$(arg report_type)</param>
       </hardware>

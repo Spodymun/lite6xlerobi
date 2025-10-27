@@ -1,0 +1,355 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="lite6">
+
+  <!-- ===== Args ===== -->
+  <xacro:arg name="robot_ip"      default="192.168.1.100"/>
+  <xacro:arg name="report_type"   default="dev"/>
+  <xacro:arg name="with_gripper"  default="false"/>
+  <xacro:arg name="with_vacuum"   default="false"/>
+  <xacro:arg name="prefix"        default=""/>
+  <xacro:arg name="mesh_path"     default="package://xarm_description/meshes"/>
+  <xacro:arg name="KIN_YAML"      default="$(find xarm_description)/config/kinematics/default/lite6_default_kinematics.yaml"/>
+  <!-- INERTIAL_YAML ist der Config-Key-Name (ohne .yaml-Dateiendung) -->
+  <xacro:arg name="INERTIAL_YAML" default="lite6_default_inertial"/>
+
+  <!-- ===== Materials (optional, nur Optik) ===== -->
+  <material name="White"><color rgba="0.9 0.9 0.9 1.0"/></material>
+  <material name="Silver"><color rgba="0.75 0.75 0.75 1.0"/></material>
+
+  <!-- ===== Properties ===== -->
+  <xacro:property name="is_ros2" value="true"/>
+  <xacro:property name="use_xacro_load_yaml" value="true"/>
+  <xacro:property name="mesh_path"   value="$(arg mesh_path)"/>
+  <xacro:property name="mesh_suffix" value="stl"/>
+  <xacro:property name="prefix" value="$(arg prefix)"/>
+
+  <!-- ===== Includes: Common ===== -->
+  <xacro:include filename="$(find xarm_description)/urdf/common/common.link.xacro"/>
+  <xacro:include filename="$(find xarm_description)/urdf/common/common.material.xacro"/>
+
+  <!-- ===== Base Link ===== -->
+  <link name="link_base">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/visual/link_base.${mesh_suffix}"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/collision/link_base.${mesh_suffix}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.88"/>
+      <origin xyz="0 0 0.09" rpy="0 0 0"/>
+      <inertia ixx="0.00204" ixy="0" ixz="0" iyy="0.00204" iyz="0" izz="0.00264"/>
+    </inertial>
+  </link>
+
+  <!-- ===== Joint 1 ===== -->
+  <joint name="joint1" type="revolute">
+    <origin xyz="0 0 0.2435" rpy="0 0 0"/>
+    <parent link="link_base"/>
+    <child link="link1"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.28" upper="6.28" effort="50" velocity="3.14"/>
+  </joint>
+
+  <link name="link1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/visual/link1.${mesh_suffix}"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/collision/link1.${mesh_suffix}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.797"/>
+      <origin xyz="0 0 0.032" rpy="0 0 0"/>
+      <inertia ixx="0.00126" ixy="0" ixz="0" iyy="0.00121" iyz="0" izz="0.00204"/>
+    </inertial>
+  </link>
+
+  <!-- ===== Joint 2 ===== -->
+  <joint name="joint2" type="revolute">
+    <origin xyz="0 0 0" rpy="1.57 0 0"/>
+    <parent link="link1"/>
+    <child link="link2"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-2.0594" upper="2.0594" effort="50" velocity="3.14"/>
+  </joint>
+
+  <link name="link2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/visual/link2.${mesh_suffix}"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/collision/link2.${mesh_suffix}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.055"/>
+      <origin xyz="0 -0.0885 0" rpy="0 0 0"/>
+      <inertia ixx="0.0024" ixy="0" ixz="0" iyy="0.00223" iyz="0" izz="0.00242"/>
+    </inertial>
+  </link>
+
+  <!-- ===== Joint 3 ===== -->
+  <joint name="joint3" type="revolute">
+    <origin xyz="0 -0.2 0" rpy="0 0 0"/>
+    <parent link="link2"/>
+    <child link="link3"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.0175" upper="5.2185" effort="30" velocity="3.14"/>
+  </joint>
+
+  <link name="link3">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/visual/link3.${mesh_suffix}"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/collision/link3.${mesh_suffix}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.325"/>
+      <origin xyz="0.0575 0.0063 0" rpy="0 0 0"/>
+      <inertia ixx="0.000515" ixy="0" ixz="0" iyy="0.000457" iyz="0" izz="0.00052"/>
+    </inertial>
+  </link>
+
+  <!-- ===== Joint 4 ===== -->
+  <joint name="joint4" type="revolute">
+    <origin xyz="0.0625 0.1137 0" rpy="1.57 0 0"/>
+    <parent link="link3"/>
+    <child link="link4"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.28" upper="6.28" effort="30" velocity="3.14"/>
+  </joint>
+
+  <link name="link4">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/visual/link4.${mesh_suffix}"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/collision/link4.${mesh_suffix}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.228"/>
+      <origin xyz="0 0 -0.0456" rpy="0 0 0"/>
+      <inertia ixx="0.000245" ixy="0" ixz="0" iyy="0.00024" iyz="0" izz="0.000198"/>
+    </inertial>
+  </link>
+
+  <!-- ===== Joint 5 ===== -->
+  <joint name="joint5" type="revolute">
+    <origin xyz="0 0 -0.1525" rpy="-1.57 0 0"/>
+    <parent link="link4"/>
+    <child link="link5"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.6925" upper="2.2689" effort="30" velocity="3.14"/>
+  </joint>
+
+  <link name="link5">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/visual/link5.${mesh_suffix}"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/collision/link5.${mesh_suffix}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.200"/>
+      <origin xyz="0 0.0456 0" rpy="0 0 0"/>
+      <inertia ixx="0.000181" ixy="0" ixz="0" iyy="0.000149" iyz="0" izz="0.000168"/>
+    </inertial>
+  </link>
+
+  <!-- ===== Joint 6 ===== -->
+  <joint name="joint6" type="revolute">
+    <origin xyz="0 0.0775 0" rpy="1.57 0 0"/>
+    <parent link="link5"/>
+    <child link="link6"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.28" upper="6.28" effort="20" velocity="3.14"/>
+  </joint>
+
+  <link name="link6">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/visual/link6.${mesh_suffix}"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/lite6/collision/link6.${mesh_suffix}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.115"/>
+      <origin xyz="0 0 -0.0134" rpy="0 0 0"/>
+      <inertia ixx="0.000087" ixy="0" ixz="0" iyy="0.000087" iyz="0" izz="0.000114"/>
+    </inertial>
+  </link>
+
+  <!-- Stabiler Tool-Link als Andockpunkt (Endeffektor-Referenz) -->
+  <link name="link_eef"/>
+  <joint name="joint_eef" type="fixed">
+    <parent link="link6"/>
+    <child  link="link_eef"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ===== ros2_control für echte Hardware (mock_components temporär) ===== -->
+  <ros2_control name="lite6" type="system">
+    <hardware>
+      <plugin>mock_components/GenericSystem</plugin>
+      <param name="robot_ip">$(arg robot_ip)</param>
+      <param name="report_type">$(arg report_type)</param>
+    </hardware>
+    
+    <joint name="joint1">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint2">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint3">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint4">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint5">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="joint6">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+  <!-- ===== Parallel-Jaw Gripper (optional, komplett eigener modularer Lite6-Gripper) ===== -->
+  <xacro:if value="$(arg with_gripper)">
+    <!-- Unser komplett eigener authentischer Lite6-Gripper mit originalen Meshes und beweglichen Fingern -->
+    <xacro:include filename="$(find lite6xlerobi)/urdf/gripper/authentic_lite6_gripper.urdf.xacro"/>
+    <xacro:authentic_lite6_gripper_urdf
+      prefix="${prefix}"
+      attach_to="link_eef"
+      attach_xyz="0 0 0"
+      attach_rpy="0 0 0"/>
+  </xacro:if>
+
+  <!-- ===== Vacuum Gripper (optional) ===== -->
+  <xacro:if value="$(arg with_vacuum)">
+    <!-- Vacuum Gripper Link direkt an link_eef -->
+    <link name="vacuum_gripper_link">
+      <visual>
+        <origin xyz="0 0 0.02" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.02" length="0.04"/>
+        </geometry>
+        <material name="Silver"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.02" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.02" length="0.04"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.1"/>
+        <origin xyz="0 0 0.02" rpy="0 0 0"/>
+        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+      </inertial>
+    </link>
+    
+    <!-- Fixed Joint zum Roboter -->
+    <joint name="vacuum_gripper_joint" type="fixed">
+      <parent link="link_eef"/>
+      <child  link="vacuum_gripper_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Vacuum Gripper Tip Link für das Joint -->
+    <link name="vacuum_tip_link">
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+
+    <!-- Virtueller Vacuum Aktor für ros2_control -->
+    <joint name="vacuum_joint" type="prismatic">
+      <parent link="vacuum_gripper_link"/>
+      <child  link="vacuum_tip_link"/>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="0" upper="1" effort="10" velocity="1"/>
+    </joint>
+
+    <!-- ros2_control für Vacuum Gripper (temporär mock_components) -->
+    <ros2_control name="vacuum_gripper_controller" type="system">
+      <hardware>
+        <plugin>mock_components/GenericSystem</plugin>
+        <param name="robot_ip">$(arg robot_ip)</param>
+        <param name="report_type">$(arg report_type)</param>
+      </hardware>
+      <joint name="vacuum_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+    </ros2_control>
+  </xacro:if>
+
+</robot>

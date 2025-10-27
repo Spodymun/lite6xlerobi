@@ -334,7 +334,7 @@ def generate_launch_description():
         package="controller_manager",
         executable="spawner", 
         arguments=[
-            "authentic_lite6_gripper_controller",
+            "lite6_gripper_controller",
             "--controller-manager", "/controller_manager",
             "--controller-manager-timeout", "30"
         ],

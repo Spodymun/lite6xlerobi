@@ -9,8 +9,9 @@ controller_manager:
     arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
     
-    authentic_lite6_gripper_controller:
-      type: position_controllers/GripperActionController
+    # Gripper über xArm Hardware-Interface
+    lite6_gripper_controller:
+      type: position_controllers/JointGroupPositionController
       
     vacuum_controller:
       type: position_controllers/JointGroupPositionController
@@ -32,7 +33,6 @@ arm_controller:
     state_interfaces:
       - position
       - velocity
-      - effort
     
     action_monitor_rate: 20.0
     allow_partial_joints_goal: false
@@ -46,16 +46,16 @@ arm_controller:
       joint5: { trajectory: 0.1, goal: 0.05 }
       joint6: { trajectory: 0.1, goal: 0.05 }
 
-# Authentic Lite6 Gripper controller configuration for real hardware
-authentic_lite6_gripper_controller:
+# Lite6 Gripper controller über xArm Hardware-Interface
+lite6_gripper_controller:
   ros__parameters:
-    joint: lite6_left_finger_joint
-    action_monitor_rate: 20.0
-    goal_tolerance: 0.02  # Slightly more tolerance for real hardware
-    max_effort: 15.0  # Higher effort for real hardware
-    allow_stalling: true
-    stall_velocity_threshold: 0.01
-    stall_timeout: 2.0
+    joints:
+      - lite6_left_finger_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
 
 # Vacuum controller configuration for real hardware
 vacuum_controller:

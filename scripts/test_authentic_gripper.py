@@ -30,32 +30,46 @@ class AuthenticGripperTest(Node):
         
         goal = GripperCommand.Goal()
         goal.command.position = position
-        goal.command.max_effort = 10.0
+        goal.command.max_effort = 15.0  # Gleiche max_effort wie real hardware
         
         future = self.gripper_client.send_goal_async(goal)
         rclpy.spin_until_future_complete(self, future)
         
-        if future.result().accepted:
+        goal_handle = future.result()
+        if goal_handle.accepted:
             self.get_logger().info(f"Command accepted: {description}")
+            
+            # Warte auf Completion
+            result_future = goal_handle.get_result_async()
+            rclpy.spin_until_future_complete(self, result_future)
+            result = result_future.result()
+            
+            if result.result.reached_goal:
+                self.get_logger().info(f"Goal reached: {description}")
+            else:
+                self.get_logger().warn(f"Goal not reached: {description}")
         else:
             self.get_logger().warn(f"Command rejected: {description}")
         
-        time.sleep(2)  # Wait for movement to complete
+        time.sleep(3)  # Mehr Zeit für realistische Bewegung
     
     def test_gripper(self):
         """Test the gripper functionality with different positions"""
         
-        # Test sequence: open -> close -> half open
+        # Erweiterte Test-Sequenz für realistisches Verhalten
         test_positions = [
-            (0.0, "Opening gripper"),
-            (0.015, "Closing gripper"), 
-            (0.0075, "Half opening gripper")
+            (0.0, "Gripper vollständig öffnen"),
+            (0.005, "Gripper leicht schließen"),
+            (0.010, "Gripper weiter schließen"), 
+            (0.015, "Gripper vollständig schließen"),
+            (0.0075, "Gripper zur Hälfte öffnen"),
+            (0.0, "Gripper vollständig öffnen")
         ]
         
         for position, description in test_positions:
             self.send_gripper_command(position, description)
         
-        self.get_logger().info("Gripper test completed successfully!")
+        self.get_logger().info("Realistische Gripper-Test erfolgreich abgeschlossen!")
 
 def main():
     rclpy.init()
